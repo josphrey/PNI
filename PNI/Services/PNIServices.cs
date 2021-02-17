@@ -43,6 +43,10 @@ namespace PNI.Services
         public UnitViewModel Unit(int Id)
         {
             UnitViewModel result = ListUnits().Find(x => x.ID == Id);
+            List<Amortization> lst = new List<Amortization>();
+            lst = _context.Amortization.Where(x => x.UnitID == result.ID).ToList();
+            result.LstAmortization = lst;
+
             return result;
         }
 
@@ -65,19 +69,33 @@ namespace PNI.Services
             {
                 Amortization am = new Amortization();
                 //int dID = dict.ElementAt(i).Key;
-                
+                am.UnitID = unitViewModel.ID;
+                am.LoanAmount = unitViewModel.LoanAmount;
                 am.Date = dict.ElementAt(i).Value;
 
                 TimeSpan difference = new TimeSpan();
                 if (i == 0)
+                {
                     difference = (dict.ElementAt(i).Value - dtLoadDate);
+                    am.NoOfDays = difference.Days;
+                    am.Principal = decimal.Round((unitViewModel.LoanAmount / unitViewModel.Terms), 2);
+                    am.Interest = decimal.Round(((unitViewModel.LoanAmount * am.NoOfDays * unitViewModel.InterestRate / 365) / 100), 2);
+                    am.Total = decimal.Round((am.Principal + am.Interest), 2);
+                    am.Balance = decimal.Round((unitViewModel.LoanAmount - am.Principal), 2);
+                }
                 else
+                {
                     difference = (dict.ElementAt(i).Value - dict.ElementAt((i - 1)).Value);
-                am.NoOfDays = difference.Days;
+                    Amortization m = lstAmortizations.Find(x => x.UnitID == unitViewModel.ID && x.Date == dict.ElementAt((i - 1)).Value);
+                    am.NoOfDays = difference.Days;
 
-                am.Principal = Math.Round(unitViewModel.LoanAmount / unitViewModel.Terms, 2);
-                am.Interest = Math.Round((unitViewModel.LoanAmount * am.NoOfDays * unitViewModel.InterestRate/ 365)/ 100, 2);
-                am.Total = Math.Round((am.Principal + am.Interest), 2);
+                    am.Principal = decimal.Round((unitViewModel.LoanAmount / unitViewModel.Terms), 2);
+                    am.Interest = decimal.Round(((m.Balance * am.NoOfDays * unitViewModel.InterestRate / 365) / 100), 2);
+                    am.Total = decimal.Round((am.Principal + am.Interest), 2);
+                    am.Balance = decimal.Round((m.Balance - am.Principal), 2);
+                }
+                AddAmortization(am);
+                lstAmortizations.Add(am);
             }
 
             return lstAmortizations;
@@ -104,7 +122,7 @@ namespace PNI.Services
         {
             if (unit != null)
             {
-                _context.Add(unit);
+                _context.Unit.Add(unit);
                 _context.SaveChanges();
             }
         }
@@ -113,7 +131,7 @@ namespace PNI.Services
         {
             if (unit != null)
             {
-                _context.Update(unit);
+                _context.Unit.Update(unit);
                 _context.SaveChanges();
             }
         }
@@ -122,7 +140,16 @@ namespace PNI.Services
         {
             if (unit != null)
             {
-                _context.Remove(unit);
+                _context.Unit.Remove(unit);
+                _context.SaveChanges();
+            }
+        }
+
+        public void AddAmortization(Amortization amortization)
+        {
+            if (amortization != null)
+            {
+                _context.Amortization.Add(amortization);
                 _context.SaveChanges();
             }
         }
@@ -137,5 +164,6 @@ namespace PNI.Services
         void AddUnit(Unit unit);
         void UpdateUnit(Unit unit);
         void DeleteUnit(Unit unit);
+        void AddAmortization(Amortization amortization);
     }
 }

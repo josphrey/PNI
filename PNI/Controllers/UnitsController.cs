@@ -116,16 +116,9 @@ namespace PNI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult BuildAmortization(int id, [Bind("ID,BuyersID,UnitPurchased,LoanAmount,Terms,LoanDate,PaymentStart,InterestRate")] UnitViewModel unitviewmodel)
         {
-
-            try
-            {
-                _services.ListAmortization(id, unitviewmodel);
-            }
-            catch
-            {
-                throw;
-            }
-            return RedirectToAction(nameof(Index));
+            _services.ListAmortization(id, unitviewmodel);
+            return RedirectToAction("Details", new { id = id });
+            //return RedirectToAction("Details", id);
 
         }
 

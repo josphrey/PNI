@@ -25,7 +25,5 @@ namespace PNI.Entities
         public decimal LoanAmount { get; set; }
 
         public int NoOfDays { get; set; }
-
-        public int isActive { get; set; }
     }
 }
