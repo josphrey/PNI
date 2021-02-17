@@ -1,0 +1,159 @@
+﻿@*@model PNI.Entities.Unit*@
+@model PNI.Models.UnitViewModel;
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Unit</h4>
+    <hr />
+    <form asp-action="BuildAmortization">
+        <div>
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Name)
+                    <input type="hidden" asp-for="ID" />
+                    <input type="hidden" asp-for="BuyersID" />
+                    <input type="hidden" asp-for="Name" />
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Address)
+                    <input type="hidden" asp-for="Address" />
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.UnitPurchased)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.UnitPurchased)
+                    <input type="hidden" asp-for="UnitPurchased" />
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.LoanAmount)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.LoanAmount)
+                    <input type="hidden" asp-for="LoanAmount" />
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Terms)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Terms)
+                    <input type="hidden" asp-for="Terms" />
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.LoanDate)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.LoanDate)
+                    <input type="hidden" asp-for="LoanDate" />
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PaymentStart)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PaymentStart)
+                    <input type="hidden" asp-for="PaymentStart" />
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.InterestRate)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.InterestRate)
+                    <input type="hidden" asp-for="InterestRate" />
+                </dd>
+            </dl>
+        </div>
+        <div>
+            @*<a asp-action="BuildAmortization" asp-route-id="@Model.ID">Build Amortization Schedule</a>*@
+
+            <input type="submit" value="BuildAmortization" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+<br />
+<div>
+    <div>
+        <h5>Amortization</h5>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.LstAmortization[0].UnitID)
+                    </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.LstAmortization[0].Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LstAmortization[0].Principal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LstAmortization[0].Interest)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LstAmortization[0].Total)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LstAmortization[0].Balance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LstAmortization[0].LoanAmount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LstAmortization[0].NoOfDays)
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.LstAmortization[0].isActive)
+                    </th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.LstAmortization)
+            {
+                <tr>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.UnitID)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Principal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Interest)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Total)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Balance)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LoanAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoOfDays)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.isActive)
+                        </td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
