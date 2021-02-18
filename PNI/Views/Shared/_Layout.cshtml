@@ -24,9 +24,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Units" asp-action="Index">Units</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Buyers" asp-action="Index">Buyers</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Maintenance
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-area="" asp-controller="Buyers" asp-action="Index">Buyers</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" asp-area="" asp-controller="Amortizations" asp-action="Index">Amortizations</a>
+                            </div>
                         </li>
+
+
+
                     </ul>
                 </div>
             </div>
